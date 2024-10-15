@@ -1,5 +1,3 @@
-package Léxico_Sintactico;
-
 public class Direccion {
 	
 	protected String identificador;

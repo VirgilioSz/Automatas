@@ -1,5 +1,3 @@
-package Léxico_Sintactico;
-
 import java.util.List;
 
 public class AnalizadorSintactico {

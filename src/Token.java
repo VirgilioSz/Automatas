@@ -1,5 +1,3 @@
-package Léxico_Sintactico;
-
 public class Token {
 	protected  String lexema;
 	protected int token;
