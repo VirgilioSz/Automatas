@@ -1,5 +1,3 @@
-package proyecto_manuel;
-
 import javax.swing.*; //Importa todo lo necesario para usar JOptionPane
 import java.io.*; //Importa lo necesario para el manejo de archivos
 import java.util.ArrayList; //Importa una clase para poder usar ArrayList

@@ -1,5 +1,3 @@
-package proyecto_manuel;
-
 public class DatosPalabra {
 	
 	private String palabra;
