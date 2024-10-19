@@ -22,7 +22,7 @@ public class Analizador_Semantico {
 	public static void main(String[] args) {
 
 		try (BufferedReader br = new BufferedReader(
-				new FileReader("C:\\Users\\lizet\\OneDrive\\Escritorio\\tabla de tokens.txt"))) {
+				new FileReader("C:\\Users\\virgi\\Documents\\ITS\\Semestre 7\\Lenguajes y automatas ii\\Proyecto1\\src\\tabla de tokens.txt"))) {
 			String line;
 			int lineNumber = 1;
 			while ((line = br.readLine()) != null) {
@@ -119,7 +119,7 @@ public class Analizador_Semantico {
 	}
 
 	private static void generarTablaSimbolos() {
-		try (FileWriter fw = new FileWriter("C:\\Users\\lizet\\OneDrive\\Escritorio\\tabla de simbolos.txt", false)) {
+		try (FileWriter fw = new FileWriter("C:\\Users\\virgi\\Documents\\ITS\\Semestre 7\\Lenguajes y automatas ii\\Proyecto1\\src\\tabla de simbolos.txt", false)) {
 			for (int i = 0; i < simbolos.size(); i++) {
 				int token = simbolos.get(i).getToken();
 				String linea = null;
@@ -149,7 +149,7 @@ public class Analizador_Semantico {
 	}
 
 	private static void generarTabladirecciones() {
-		try (FileWriter fw = new FileWriter("C:\\Users\\lizet\\OneDrive\\Escritorio\\tabla de direcciones.txt",
+		try (FileWriter fw = new FileWriter("C:\\Users\\virgi\\Documents\\ITS\\Semestre 7\\Lenguajes y automatas ii\\Proyecto1\\src\\tabla de direcciones.txt",
 				false)) {
 			for (int i = 0; i < direcciones.size(); i++) {
 				int token = direcciones.get(i).getToken();
@@ -164,7 +164,7 @@ public class Analizador_Semantico {
 	}
 
 	private static void reescribirTablaToken() {
-		try (FileWriter fw = new FileWriter("C:\\Users\\lizet\\OneDrive\\Escritorio\\tabla de tokens.txt", false)) {
+		try (FileWriter fw = new FileWriter("C:\\Users\\virgi\\Documents\\ITS\\Semestre 7\\Lenguajes y automatas ii\\Proyecto1\\src\\tabla de tokens.txt", false)) {
 			for (int i = 0; i < tokens.size(); i++) {
 				Token token = tokens.get(i);
 				boolean encontrado = false;

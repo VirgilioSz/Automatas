@@ -14,7 +14,7 @@ import java.util.regex.Pattern; //Importa una clase para manipular texto basado 
 
 public class Practica4 {
 	
-	static String nombreArchivo = "C:\\Users\\lizet\\OneDrive\\Documentos\\UNIVERSIDAD\\SEPTIMO SEMESTRE\\LENGUAJES Y AUTOMATAS 2\\Compilador\\practica4.txt";
+	static String nombreArchivo = "C:\\Users\\virgi\\Documents\\ITS\\Semestre 7\\Lenguajes y automatas ii\\Proyecto1\\src\\prueba.txt";
     static SinglyLinkedList<DatosPalabra> palabrasDelArchivo = new SinglyLinkedList<>();
     static SinglyLinkedList<DatosPalabra> erroresDelArchivo = new SinglyLinkedList<>();
 
@@ -402,7 +402,7 @@ public class Practica4 {
     //Metodo para escribir en el archivo .txt las palabras analizadas
     private static void escribirArchivoTablaDeTokens() {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\lizet\\OneDrive\\Escritorio\\tabla de tokens.txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\virgi\\Documents\\ITS\\Semestre 7\\Lenguajes y automatas ii\\Proyecto1\\src\\tabla de tokens.txt"));
             for (DatosPalabra datosPalabra : palabrasDelArchivo) {
                 if (datosPalabra.getValorToken()!=0){
                     writer.write(datosPalabra.toString());
@@ -417,7 +417,7 @@ public class Practica4 {
 
     public static void escribirArchivoTablaDeErrores(){
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\lizet\\OneDrive\\Escritorio\\tabla de errores.txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\virgi\\Documents\\ITS\\Semestre 7\\Lenguajes y automatas ii\\Proyecto1\\src\\tabla de errores.txt"));
             for (DatosPalabra datosPalabra : erroresDelArchivo) {
                 writer.write("Error en la linea: " + datosPalabra.getPosicion() + ". En la palabra: " + datosPalabra.getPalabra());
                 writer.newLine();

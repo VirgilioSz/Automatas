@@ -11,7 +11,7 @@ public class Practica5_Eq1 {
 	public static void main(String[] args) {
 		 List<Token> tokens = new ArrayList<>();
 
-	        try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\lizet\\OneDrive\\Escritorio\\tabla de tokens.txt"))) {
+	        try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\virgi\\Documents\\ITS\\Semestre 7\\Lenguajes y automatas ii\\Proyecto1\\src\\tabla de tokens.txt"))) {
 	            String line;
 	            int lineNumber = 1;
 	            while ((line = br.readLine()) != null) {
