@@ -91,6 +91,8 @@ public class AnalizadorSintactico {
             } else {
                 error("La palabra clave 'var' ya fue declarada anteriormente en la línea " + tokenActual.getNo_linea());
             }
+        } else if (tokenActual.getToken() == -51 || tokenActual.getToken() == -52 || tokenActual.getToken() == -53 || tokenActual.getToken() == -54 || tokenActual.getToken() == -55) {
+            error("Falto declarar variable en línea " + tokenActual.getNo_linea());
         } else {
             if (!varEncontrada) {
                 error("Se esperaba la palabra clave 'var' en la línea " + tokenActual.getNo_linea());
