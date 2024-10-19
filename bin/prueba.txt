@@ -1,0 +1,36 @@
+program num_primo?;
+var
+  int: x&, i&;
+  string: res#;
+  bool: esPrimo$;
+
+begin
+    read(x&);
+    if (x& <= 1) then
+       begin
+            res# := "No es un numero primo";
+       end
+    else
+       begin
+            esPrimo$ := true;
+            i& := 2;
+            while (i& < x& && esPrimo$) do
+               begin
+                    if (x& % i& == 0) then
+                       begin
+                            esPrimo$ := false;
+                       end
+                    i& := i& + 1;
+                end
+            if (esPrimo$) then
+              begin
+                 res# := "Es un numero primo";
+              end
+            else
+              begin
+                 res# := "No es un numero primo";
+              end
+       end
+    write(x&);
+    write(res#);
+end

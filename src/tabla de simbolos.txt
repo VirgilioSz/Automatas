@@ -1,0 +1,4 @@
+x&,-51,0,0,0,null,main
+i&,-51,0,0,0,null,main
+res#,-53,null,0,0,null,main
+esPrimo$,-54,0.0,0,0,null,main
