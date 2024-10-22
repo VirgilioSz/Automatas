@@ -13,6 +13,10 @@ public class Logica {
 	static public List<Direccion> direcciones = new ArrayList<>();
 	static public int index = 0;
 
+	static public List<Integer> aritmeticos = Arrays.asList(-21, -22, -23, -24);
+	static public List<Integer> enteros = Arrays.asList(-61, -51);
+	static public List<Integer> relacionales = Arrays.asList(-31, -32, -33, -34, -35);
+
 	public static void main(String[] args) {
 		try (BufferedReader br = new BufferedReader(
 				new FileReader(
@@ -54,17 +58,62 @@ public class Logica {
 		System.out.println("Moviéndose por la tabla de tokens e imprimiendo símbolos:");
 
 		// Avanza por la tabla de tokens y busca símbolos
-		for (int i = index; i < tokens.size(); i++) {
-			String lexema = tokens.get(i).getLexema();
-			int token = tokens.get(i).getToken();
+		for (; index < tokens.size(); index++) {
+			String lexema = tokens.get(index).getLexema();
+			int token = tokens.get(index).getToken();
+			Simbolo simbolo;
 
-			// Verifica si el token es uno de los que representan símbolos
-			if (token == -51 || token == -52 || token == -53 || token == -54) {
-
-					Simbolo simbolo = new Simbolo(lexema, token, 0, 0, 0, "null", "main");
+			switch (token) {
+				case -51:
+					simbolo = new Simbolo(lexema, token, 0, 0, 0, "null", "main");
 					simbolos.add(simbolo);
-					System.out.println("Símbolo encontrado: " + simbolo.getIdentificador() + " En linea: " + tokens.get(i).getNo_linea());
-				
+					entero();
+					break;
+
+				case -52:
+					break;
+
+				case -53:
+					break;
+
+				case -54:
+					break;
+
+				default:
+					break;
+			}
+		}
+	}
+
+	public static void entero() {
+		index++;
+
+		if (tokens.get(index).getToken() == -74) {
+			// cuando es un readln
+			index++;
+		} else if (tokens.get(index).getToken() == -26) { // el token tiene que ser :=
+			index++;
+			//System.out.println("Simbolos enteros: \n");
+			while (tokens.get(index).getToken() != -75 && (aritmeticos.contains(tokens.get(index).getToken())
+					|| enteros.contains(tokens.get(index).getToken())
+					|| relacionales.contains(tokens.get(index).getToken()))) {
+				//System.out.println(tokens.get(index).getLexema()); // token despues de :=
+				index++;
+
+			}
+			if (tokens.get(index).getToken() != -75) {
+				error("variable o operador no valido");
+			}
+		} else if (relacionales.contains(tokens.get(index).getToken())) { // el token tiene que ser un operador relacional
+			//System.out.println("Simbolos relacionales: \n");
+			while (tokens.get(index).getToken() != -75 && (enteros.contains(tokens.get(index).getToken())
+					|| relacionales.contains(tokens.get(index).getToken()))) {
+				//System.out.println(tokens.get(index).getLexema()); // token despues de operadores relacionales
+				index++;
+
+			}
+			if (tokens.get(index).getToken() != -75) {
+				error("variable o operador no valido");
 			}
 		}
 	}
