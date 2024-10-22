@@ -88,32 +88,32 @@ public class Logica {
 	public static void entero() {
 		index++;
 
-		if (tokens.get(index).getToken() == -74) {
-			// cuando es un readln
+		if (tokens.get(index).getToken() == -26) { // el token tiene que ser :=
 			index++;
-		} else if (tokens.get(index).getToken() == -26) { // el token tiene que ser :=
-			index++;
-			//System.out.println("Simbolos enteros: \n");
+			System.out.println("Simbolos enteros: ");
 			while (tokens.get(index).getToken() != -75 && (aritmeticos.contains(tokens.get(index).getToken())
 					|| enteros.contains(tokens.get(index).getToken())
 					|| relacionales.contains(tokens.get(index).getToken()))) {
-				//System.out.println(tokens.get(index).getLexema()); // token despues de :=
+				System.out.println(tokens.get(index).getLexema()); // token despues de :=
 				index++;
 
 			}
 			if (tokens.get(index).getToken() != -75) {
 				error("variable o operador no valido");
 			}
-		} else if (relacionales.contains(tokens.get(index).getToken())) { // el token tiene que ser un operador relacional
-			//System.out.println("Simbolos relacionales: \n");
-			while (tokens.get(index).getToken() != -75 && (enteros.contains(tokens.get(index).getToken())
+		}
+
+		if (tokens.get(index).getToken() == -74) {
+			System.out.println("Simbolos parentesis: \n" + tokens.get(index).getLexema()); // token despues de variable sola
+			index++;
+		}
+
+		if (relacionales.contains(tokens.get(index).getToken())) {
+			System.out.println("Simbolos realcionales:");
+			while (tokens.get(index).getToken() != -74 && (enteros.contains(tokens.get(index).getToken())
 					|| relacionales.contains(tokens.get(index).getToken()))) {
-				//System.out.println(tokens.get(index).getLexema()); // token despues de operadores relacionales
+				System.out.println(tokens.get(index).getLexema()); // token despues de relacionales
 				index++;
-
-			}
-			if (tokens.get(index).getToken() != -75) {
-				error("variable o operador no valido");
 			}
 		}
 	}
