@@ -2,6 +2,7 @@ program num_primo?;
 var
   int: x&, i&;
   string: res#;
+  real: asdf%;
   bool: esPrimo$;
 
 begin
@@ -9,6 +10,7 @@ begin
     if (x& <= 1) then
        begin
             res# := "No es un numero primo";
+            asdf% := asdf% + 1.5;
        end
     else
        begin

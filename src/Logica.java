@@ -15,6 +15,7 @@ public class Logica {
 
 	static public List<Integer> aritmeticos = Arrays.asList(-21, -22, -23, -24);
 	static public List<Integer> enteros = Arrays.asList(-61, -51);
+	static public List<Integer> reales = Arrays.asList(-62, -52);
 	static public List<Integer> relacionales = Arrays.asList(-31, -32, -33, -34, -35);
 
 	public static void main(String[] args) {
@@ -71,6 +72,9 @@ public class Logica {
 					break;
 
 				case -52:
+					simbolo = new Simbolo(lexema, token, 0, 0, 0, "null", "main");
+					simbolos.add(simbolo);
+					real();
 					break;
 
 				case -53:
@@ -90,7 +94,7 @@ public class Logica {
 
 		if (tokens.get(index).getToken() == -26) { // el token tiene que ser :=
 			index++;
-			System.out.println("Simbolos enteros: ");
+			System.out.println("Enteros enteros: ");
 			while (tokens.get(index).getToken() != -75 && (aritmeticos.contains(tokens.get(index).getToken())
 					|| enteros.contains(tokens.get(index).getToken())
 					|| relacionales.contains(tokens.get(index).getToken()))) {
@@ -104,12 +108,47 @@ public class Logica {
 		}
 
 		if (tokens.get(index).getToken() == -74) {
-			System.out.println("Simbolos parentesis: \n" + tokens.get(index).getLexema()); // token despues de variable sola
+			System.out.println("Enteros parentesis: \n" + tokens.get(index).getLexema()); // token despues de variable
+																							// sola
 			index++;
 		}
 
 		if (relacionales.contains(tokens.get(index).getToken())) {
-			System.out.println("Simbolos realcionales:");
+			System.out.println("Enteros realcionales:");
+			while (tokens.get(index).getToken() != -74 && (enteros.contains(tokens.get(index).getToken())
+					|| relacionales.contains(tokens.get(index).getToken()))) {
+				System.out.println(tokens.get(index).getLexema()); // token despues de relacionales
+				index++;
+			}
+		}
+	}
+
+	public static void real() {
+		index++;
+
+		if (tokens.get(index).getToken() == -26) { // el token tiene que ser :=
+			index++;
+			System.out.println("Reales enteros: ");
+			while (tokens.get(index).getToken() != -75 && (aritmeticos.contains(tokens.get(index).getToken())
+					|| reales.contains(tokens.get(index).getToken())
+					|| relacionales.contains(tokens.get(index).getToken()))) {
+				System.out.println(tokens.get(index).getLexema()); // token despues de :=
+				index++;
+
+			}
+			if (tokens.get(index).getToken() != -75) {
+				error("variable o operador no valido");
+			}
+		}
+
+		if (tokens.get(index).getToken() == -74) {
+			System.out.println("Reales parentesis: \n" + tokens.get(index).getLexema()); // token despues de variable
+																							// sola
+			index++;
+		}
+
+		if (relacionales.contains(tokens.get(index).getToken())) {
+			System.out.println("Reales realcionales:");
 			while (tokens.get(index).getToken() != -74 && (enteros.contains(tokens.get(index).getToken())
 					|| relacionales.contains(tokens.get(index).getToken()))) {
 				System.out.println(tokens.get(index).getLexema()); // token despues de relacionales
