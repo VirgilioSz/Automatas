@@ -78,6 +78,9 @@ public class Logica {
 					break;
 
 				case -53:
+					simbolo = new Simbolo(lexema, token, 0, 0, 0, "null", "main");
+					simbolos.add(simbolo);
+					cadena();
 					break;
 
 				case -54:
@@ -154,6 +157,30 @@ public class Logica {
 				System.out.println(tokens.get(index).getLexema()); // token despues de relacionales
 				index++;
 			}
+		}
+	}
+
+	public static void cadena() {
+		index++;
+
+		if (tokens.get(index).getToken() == -26) { // el token tiene que ser :=
+			index++;
+			System.out.println("Cadena asignacion: ");
+			while (tokens.get(index).getToken() != -75 && (tokens.get(index).getToken() == -24
+					|| tokens.get(index).getToken() == -53 || tokens.get(index).getToken() == -63)) {
+				System.out.println(tokens.get(index).getLexema()); // token despues de :=
+				index++;
+
+			}
+			if (tokens.get(index).getToken() != -75) {
+				error("variable o operador no valido");
+			}
+		}
+
+		if (tokens.get(index).getToken() == -74) {
+			System.out.println("Cadena parentesis: \n" + tokens.get(index).getLexema()); // token despues de variable
+																							// sola
+			index++;
 		}
 	}
 
