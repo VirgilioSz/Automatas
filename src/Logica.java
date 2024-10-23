@@ -16,6 +16,7 @@ public class Logica {
 	static public List<Integer> aritmeticos = Arrays.asList(-21, -22, -23, -24);
 	static public List<Integer> enteros = Arrays.asList(-61, -51);
 	static public List<Integer> reales = Arrays.asList(-62, -52);
+	static public List<Integer> identificadores = Arrays.asList(-51, -52, -53, -54);
 	static public List<Integer> relacionales = Arrays.asList(-31, -32, -33, -34, -35);
 
 	public static void main(String[] args) {
@@ -84,6 +85,9 @@ public class Logica {
 					break;
 
 				case -54:
+					simbolo = new Simbolo(lexema, token, 0, 0, 0, "null", "main");
+					simbolos.add(simbolo);
+					logico();
 					break;
 
 				default:
@@ -179,6 +183,40 @@ public class Logica {
 
 		if (tokens.get(index).getToken() == -74) {
 			System.out.println("Cadena parentesis: \n" + tokens.get(index).getLexema()); // token despues de variable
+																							// sola
+			index++;
+		}
+	}
+
+	public static void logico() {
+		index++;
+
+		if (tokens.get(index).getToken() == -26) { // el token tiene que ser :=
+			index++;
+			System.out.println("Logico asignacion: ");
+			while (tokens.get(index).getToken() != -75 && (tokens.get(index).getToken() == -64
+					|| tokens.get(index).getToken() == -65)) {
+				System.out.println(tokens.get(index).getLexema()); // token despues de :=
+				index++;
+
+			}
+			if (tokens.get(index).getToken() != -75) {
+				error("variable o operador no valido");
+			}
+		}
+
+		if (tokens.get(index).getToken() == -41 || tokens.get(index).getToken() == -42
+				|| tokens.get(index).getToken() == -43) {
+			if (identificadores.contains(tokens.get(index - 1).getToken())
+					&& identificadores.contains(tokens.get(index + 1).getToken())) {
+				System.out.println("Logico asignacion: ");
+				System.out.println(tokens.get(index).getLexema());
+				index++;
+			}
+		}
+
+		if (tokens.get(index).getToken() == -74) {
+			System.out.println("Logico parentesis: \n" + tokens.get(index).getLexema()); // token despues de variable
 																							// sola
 			index++;
 		}
