@@ -156,7 +156,7 @@ public class Logica {
 
 		if (relacionales.contains(tokens.get(index).getToken())) {
 			System.out.println("Reales realcionales:");
-			while (tokens.get(index).getToken() != -74 && (enteros.contains(tokens.get(index).getToken())
+			while (tokens.get(index).getToken() != -74 && (reales.contains(tokens.get(index).getToken())
 					|| relacionales.contains(tokens.get(index).getToken()))) {
 				System.out.println(tokens.get(index).getLexema()); // token despues de relacionales
 				index++;
