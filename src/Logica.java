@@ -18,6 +18,7 @@ public class Logica {
 	static public List<Integer> reales = Arrays.asList(-62, -52);
 	static public List<Integer> identificadores = Arrays.asList(-51, -52, -53, -54);
 	static public List<Integer> relacionales = Arrays.asList(-31, -32, -33, -34, -35);
+	static public List<Integer> parentesis = Arrays.asList(-73, -74);
 
 	public static void main(String[] args) {
 		try (BufferedReader br = new BufferedReader(
@@ -104,7 +105,8 @@ public class Logica {
 			System.out.println("Enteros enteros: ");
 			while (tokens.get(index).getToken() != -75 && (aritmeticos.contains(tokens.get(index).getToken())
 					|| enteros.contains(tokens.get(index).getToken())
-					|| relacionales.contains(tokens.get(index).getToken()))) {
+					|| relacionales.contains(tokens.get(index).getToken())
+					|| parentesis.contains(tokens.get(index).getToken()))) {
 				System.out.println(tokens.get(index).getLexema()); // token despues de :=
 				index++;
 
@@ -138,7 +140,10 @@ public class Logica {
 			System.out.println("Reales enteros: ");
 			while (tokens.get(index).getToken() != -75 && (aritmeticos.contains(tokens.get(index).getToken())
 					|| reales.contains(tokens.get(index).getToken())
-					|| relacionales.contains(tokens.get(index).getToken()))) {
+					|| relacionales.contains(tokens.get(index).getToken())
+					|| enteros.contains(tokens.get(index).getToken())
+					|| relacionales.contains(tokens.get(index).getToken()) 
+					|| parentesis.contains(tokens.get(index).getToken()))) {
 				System.out.println(tokens.get(index).getLexema()); // token despues de :=
 				index++;
 
@@ -195,7 +200,7 @@ public class Logica {
 			index++;
 			System.out.println("Logico asignacion: ");
 			while (tokens.get(index).getToken() != -75 && (tokens.get(index).getToken() == -64
-					|| tokens.get(index).getToken() == -65)) {
+					|| tokens.get(index).getToken() == -65 || parentesis.contains(tokens.get(index).getToken()))) {
 				System.out.println(tokens.get(index).getLexema()); // token despues de :=
 				index++;
 
