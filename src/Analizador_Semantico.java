@@ -45,8 +45,8 @@ public class Analizador_Semantico {
 			e.printStackTrace();
 		}
 
-		obtenerSimbolos();
-		obtenerdirecciones();
+		obtenerdirecciones(); // se cambio el orden
+		obtenerSimbolos(); // se cambio el orden
 		generarTablaSimbolos();
 		generarTabladirecciones();
 		reescribirTablaToken();
@@ -83,21 +83,22 @@ public class Analizador_Semantico {
 	}
 
 	private static void obtenerSimbolos() {
+		String direccion = direcciones.get(0).getIdentificador();/// aqui se hizo un cambio
 		for (int i = 0; i < tokens.size(); i++) {
 			String lexema = tokens.get(i).getLexema();
 			int token = tokens.get(i).getToken();
 			boolean encontrado = estaEnTablaSimbolos(lexema);
 			if (token == -51 && encontrado == false) {
-				Simbolo simbolo = new Simbolo(lexema, token, 0, 0, 0, "null", "main");
+				Simbolo simbolo = new Simbolo(lexema, token, 0, 0, 0, "null", direccion);
 				simbolos.add(simbolo);
 			} else if (token == -52 && encontrado == false) {
-				Simbolo simbolo = new Simbolo(lexema, token, 0.0f, 0, 0, "null", "main");
+				Simbolo simbolo = new Simbolo(lexema, token, 0.0f, 0, 0, "null", direccion);
 				simbolos.add(simbolo);
 			} else if (token == -53 && encontrado == false) {
-				Simbolo simbolo = new Simbolo(lexema, token, null, 0, 0, "null", "main");
+				Simbolo simbolo = new Simbolo(lexema, token, null, 0, 0, "null", direccion);
 				simbolos.add(simbolo);
 			} else if (token == -54 && encontrado == false) {
-				Simbolo simbolo = new Simbolo(lexema, token, false, 0, 0, "null", "main");
+				Simbolo simbolo = new Simbolo(lexema, token, false, 0, 0, "null", direccion);
 				simbolos.add(simbolo);
 			} else if (token == -2) {// si viene el token 'begin', se dea de crear la tabla de simbolos
 				break;
@@ -139,7 +140,11 @@ public class Analizador_Semantico {
 							+ "," + simbolos.get(i).getD1() + "," + simbolos.get(i).getD2() + ","
 							+ simbolos.get(i).getPtr() + "," + simbolos.get(i).getAmbito() + "\n";
 				} else if (token == -54) {
-					linea = simbolos.get(i).getIdentificador() + "," + token + "," + simbolos.get(i).getValorReal()
+					linea = simbolos.get(i).getIdentificador() + "," + token + "," + simbolos.get(i).isValorLogico()// aqui
+																													// se
+																													// hizo
+																													// el
+																													// cambio
 							+ "," + simbolos.get(i).getD1() + "," + simbolos.get(i).getD2() + ","
 							+ simbolos.get(i).getPtr() + "," + simbolos.get(i).getAmbito() + "\n";
 				}
