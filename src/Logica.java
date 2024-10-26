@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JOptionPane;
+
 public class Logica {
 	static public List<Token> tokens = new ArrayList<>();
 	static public List<Simbolo> simbolos = new ArrayList<>();
@@ -47,7 +49,8 @@ public class Logica {
 
 		empezar();
 		obtenerSimbolos();
-		moverYImprimirSimbolos();
+		checharLogica();
+		JOptionPane.showMessageDialog(null, "Logica correcta");
 	}
 
 	public static void empezar() {
@@ -57,9 +60,7 @@ public class Logica {
 		index++;
 	}
 
-	public static void moverYImprimirSimbolos() {
-		System.out.println("Moviéndose por la tabla de tokens e imprimiendo símbolos:");
-
+	public static void checharLogica() {
 		// Avanza por la tabla de tokens y busca símbolos
 		for (; index < tokens.size(); index++) {
 			String lexema = tokens.get(index).getLexema();
@@ -102,12 +103,10 @@ public class Logica {
 
 		if (tokens.get(index).getToken() == -26) { // el token tiene que ser :=
 			index++;
-			System.out.println("Enteros enteros: ");
 			while (tokens.get(index).getToken() != -75 && (aritmeticos.contains(tokens.get(index).getToken())
 					|| enteros.contains(tokens.get(index).getToken())
 					|| relacionales.contains(tokens.get(index).getToken())
 					|| parentesis.contains(tokens.get(index).getToken()))) {
-				System.out.println(tokens.get(index).getLexema()); // token despues de :=
 				index++;
 
 			}
@@ -117,16 +116,12 @@ public class Logica {
 		}
 
 		if (tokens.get(index).getToken() == -74) {
-			System.out.println("Enteros parentesis: \n" + tokens.get(index).getLexema()); // token despues de variable
-																							// sola
 			index++;
 		}
 
 		if (relacionales.contains(tokens.get(index).getToken())) {
-			System.out.println("Enteros realcionales:");
 			while (tokens.get(index).getToken() != -74 && (enteros.contains(tokens.get(index).getToken())
 					|| relacionales.contains(tokens.get(index).getToken()))) {
-				System.out.println(tokens.get(index).getLexema()); // token despues de relacionales
 				index++;
 			}
 		}
@@ -137,14 +132,12 @@ public class Logica {
 
 		if (tokens.get(index).getToken() == -26) { // el token tiene que ser :=
 			index++;
-			System.out.println("Reales enteros: ");
 			while (tokens.get(index).getToken() != -75 && (aritmeticos.contains(tokens.get(index).getToken())
 					|| reales.contains(tokens.get(index).getToken())
 					|| relacionales.contains(tokens.get(index).getToken())
 					|| enteros.contains(tokens.get(index).getToken())
 					|| relacionales.contains(tokens.get(index).getToken()) 
 					|| parentesis.contains(tokens.get(index).getToken()))) {
-				System.out.println(tokens.get(index).getLexema()); // token despues de :=
 				index++;
 
 			}
@@ -154,16 +147,12 @@ public class Logica {
 		}
 
 		if (tokens.get(index).getToken() == -74) {
-			System.out.println("Reales parentesis: \n" + tokens.get(index).getLexema()); // token despues de variable
-																							// sola
 			index++;
 		}
 
 		if (relacionales.contains(tokens.get(index).getToken())) {
-			System.out.println("Reales realcionales:");
 			while (tokens.get(index).getToken() != -74 && (reales.contains(tokens.get(index).getToken())
 					|| relacionales.contains(tokens.get(index).getToken()))) {
-				System.out.println(tokens.get(index).getLexema()); // token despues de relacionales
 				index++;
 			}
 		}
@@ -174,10 +163,8 @@ public class Logica {
 
 		if (tokens.get(index).getToken() == -26) { // el token tiene que ser :=
 			index++;
-			System.out.println("Cadena asignacion: ");
 			while (tokens.get(index).getToken() != -75 && (tokens.get(index).getToken() == -24
 					|| tokens.get(index).getToken() == -53 || tokens.get(index).getToken() == -63)) {
-				System.out.println(tokens.get(index).getLexema()); // token despues de :=
 				index++;
 
 			}
@@ -187,8 +174,6 @@ public class Logica {
 		}
 
 		if (tokens.get(index).getToken() == -74) {
-			System.out.println("Cadena parentesis: \n" + tokens.get(index).getLexema()); // token despues de variable
-																							// sola
 			index++;
 		}
 	}
@@ -198,10 +183,8 @@ public class Logica {
 
 		if (tokens.get(index).getToken() == -26) { // el token tiene que ser :=
 			index++;
-			System.out.println("Logico asignacion: ");
 			while (tokens.get(index).getToken() != -75 && (tokens.get(index).getToken() == -64
 					|| tokens.get(index).getToken() == -65 || parentesis.contains(tokens.get(index).getToken()))) {
-				System.out.println(tokens.get(index).getLexema()); // token despues de :=
 				index++;
 
 			}
@@ -214,15 +197,11 @@ public class Logica {
 				|| tokens.get(index).getToken() == -43) {
 			if (identificadores.contains(tokens.get(index - 1).getToken())
 					&& identificadores.contains(tokens.get(index + 1).getToken())) {
-				System.out.println("Logico asignacion: ");
-				System.out.println(tokens.get(index).getLexema());
 				index++;
 			}
 		}
 
 		if (tokens.get(index).getToken() == -74) {
-			System.out.println("Logico parentesis: \n" + tokens.get(index).getLexema()); // token despues de variable
-																							// sola
 			index++;
 		}
 	}
