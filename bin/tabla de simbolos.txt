@@ -1,2 +1,4 @@
+x%,-52,0.0,0,0,null,grados_fahrenheit?
 cent%,-52,0.0,0,0,null,grados_fahrenheit?
 farh%,-52,0.0,0,0,null,grados_fahrenheit?
+x&,-51,0,0,0,null,grados_fahrenheit?

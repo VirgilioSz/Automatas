@@ -1,10 +1,11 @@
 program grados_fahrenheit?;
 var
-	real: cent%, farh%;
+	real: x%, cent%, farh%;
+	int: x&;
 begin
         write("Ingrese °C");
 	read(cent%);
-	farh%:= (cent% * 9/5)+32;
+	farh%:= (cent% * 9.0/5)+32+"Hola";
         write("En Farenheit es igual a ");
 	write(farh%);
 end
