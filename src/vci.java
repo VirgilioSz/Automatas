@@ -15,15 +15,20 @@ import javax.swing.JOptionPane;
 public class vci {
     static public List<Token> tokens = new ArrayList<>();
     static public int index = 0;
-    static public List<String> vci = new ArrayList<>();
+    static public List<Token> vci = new ArrayList<>();
     static public Stack<String> estatutos = new Stack<>();
     static public Stack<Integer> direccion = new Stack<>();
     static public Stack<Operadores> operadores = new Stack<>();
 
     public static void main(String[] args) {
+        String printVCI = "";
         tablaTokens();
         empezar();
         crearVCI();
+        for (int index = 0; index < vci.size(); index++) {
+           printVCI += vci.get(index).getLexema() + ", ";
+        }
+        System.out.println(printVCI);
     }
 
     public static void tablaTokens() {
@@ -77,19 +82,16 @@ public class vci {
 
     public static void writeRead() {
         int token = 0;
+        Token tokenAux = null;
         while (tokens.get(index).getToken() != -75) {
             token = tokens.get(index).getToken();
 
             switch (token) {
                 case -4, -5:
-                    estatutos.push(tokens.get(index).getLexema());
-                    direccion.push(index);
+                    tokenAux = tokens.get(index);
                     break;
 
-                case -73:
-                    break;
-
-                case -75:
+                case -73, -74:
                     break;
 
                 case -21, -22:
@@ -97,10 +99,13 @@ public class vci {
                     break;
 
                 default:
+                    vci.add(tokens.get(index));
                     break;
             }
             index++;
         }
+        vci.add(tokenAux);
+
     }
 
     public static void operador() {
@@ -142,14 +147,14 @@ public class vci {
     }
 
     public static void pilaOperador(int prioridadActual) {
-        String lexema = "";
+        Token tokenNuevo;
         int prioridad = 0;
         while (operadores.peek().getPrioridad() >= prioridadActual) {
             Operadores ultimoOperador = operadores.pop();
-            vci.add(ultimoOperador.getLexema());
+            vci.add(ultimoOperador.getToken());
         }
-        lexema = tokens.get(index).getLexema();
+        tokenNuevo = tokens.get(index);
         prioridad = prioridadActual;
-        operadores.push(new Operadores(lexema, prioridad));
+        operadores.push(new Operadores(tokenNuevo, prioridad));
     }
 }

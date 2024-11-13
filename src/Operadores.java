@@ -1,23 +1,23 @@
 public class Operadores {
-    protected String lexema;
+    protected Token token;
 	protected int prioridad;
 	
-	public Operadores(String lexema, int prioridad) {
+	public Operadores(Token token, int prioridad) {
 		super();
-		this.lexema = lexema;
+		this.token = token;
 		this.prioridad = prioridad;
 	}
 
-	public String getLexema() {
-		return lexema;
+	public Token getToken() {
+		return token;
 	}
 
 	public int getPrioridad() {
 		return prioridad;
 	}
 
-	public void setLexema(String lexema) {
-		this.lexema = lexema;
+	public void setToken(Token token) {
+		this.token = token;
 	}
 
 	public void setPrioridad(int prioridad) {
@@ -26,6 +26,6 @@ public class Operadores {
 	
 	@Override
 	public String toString() {
-		return "Lexema = " + lexema + ", prioridad = " + prioridad;
+		return "Lexema = " + token.getLexema() + ", prioridad = " + prioridad;
 	}
 }
