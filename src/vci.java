@@ -26,9 +26,13 @@ public class vci {
         empezar();
         crearVCI();
         for (int index = 0; index < vci.size(); index++) {
-           printVCI += vci.get(index).getLexema() + ", ";
+            printVCI += vci.get(index).getLexema() + ", ";
         }
         System.out.println(printVCI);
+        for (Operadores operador : operadores) {
+            System.out.println(operador); // O imprime los campos específicos, por ejemplo: operador.getToken()
+        }
+        
     }
 
     public static void tablaTokens() {
@@ -74,6 +78,10 @@ public class vci {
                     writeRead();
                     break;
 
+                case -51, -52, -53, -54, -55, -61, -62, -63, -64, -65:
+                    identificadoresConstantes();
+                    break;
+
                 default:
                     break;
             }
@@ -106,6 +114,32 @@ public class vci {
         }
         vci.add(tokenAux);
 
+    }
+
+    public static void identificadoresConstantes() {
+        int token = 0;
+        while (tokens.get(index).getToken() != -75) {
+            token = tokens.get(index).getToken();
+
+            switch (token) {
+
+                case -73, -74:
+                    break;
+
+                case -21, -22, -24, -25, -26, -31, -32, -33, -34, -35, -36, -41, -42, -43:
+                    operador();
+                    break;
+
+                default:
+                    vci.add(tokens.get(index));
+                    break;
+            }
+            index++;
+        }
+        while (!operadores.isEmpty()) {
+            Operadores ultimoOperador = operadores.pop();
+            vci.add(ultimoOperador.getToken());
+        }
     }
 
     public static void operador() {
@@ -149,7 +183,7 @@ public class vci {
     public static void pilaOperador(int prioridadActual) {
         Token tokenNuevo;
         int prioridad = 0;
-        while (operadores.peek().getPrioridad() >= prioridadActual) {
+        while (!operadores.isEmpty() && operadores.peek().getPrioridad() >= prioridadActual) {
             Operadores ultimoOperador = operadores.pop();
             vci.add(ultimoOperador.getToken());
         }
