@@ -32,7 +32,7 @@ public class vci {
         for (Operadores operador : operadores) {
             System.out.println(operador); // O imprime los campos específicos, por ejemplo: operador.getToken()
         }
-        
+
     }
 
     public static void tablaTokens() {
@@ -122,11 +122,7 @@ public class vci {
             token = tokens.get(index).getToken();
 
             switch (token) {
-
-                case -73, -74:
-                    break;
-
-                case -21, -22, -24, -25, -26, -31, -32, -33, -34, -35, -36, -41, -42, -43:
+                case -21, -22, -24, -25, -26, -31, -32, -33, -34, -35, -36, -41, -42, -43, -73, -74:
                     operador();
                     break;
 
@@ -175,6 +171,10 @@ public class vci {
                 pilaOperador(0);
                 break;
 
+            case -73, -74:
+                pilaOperador(-1, tokens.get(index).getToken());
+                break;
+
             default:
                 break;
         }
@@ -190,5 +190,25 @@ public class vci {
         tokenNuevo = tokens.get(index);
         prioridad = prioridadActual;
         operadores.push(new Operadores(tokenNuevo, prioridad));
+    }
+
+    public static void pilaOperador(int prioridadActual, int token) {
+        Token tokenNuevo;
+        int prioridad = 0;
+        // si es un ( solo se inserta en la pila de operadores
+        if (token == -73) {
+            tokenNuevo = tokens.get(index);
+            prioridad = prioridadActual;
+            operadores.push(new Operadores(tokenNuevo, prioridad));
+        } else if (token == -74) { // si es un ) va a sacar a todos los operadores hasta encontrar a )
+            Operadores ultimoOperador = null;
+            // si es un ) va a sacar a todos los operadores con prioridad mas alta
+            while (!operadores.isEmpty() && operadores.peek().getPrioridad() > prioridadActual) {
+                ultimoOperador = operadores.pop();
+                vci.add(ultimoOperador.getToken());
+            }
+            //cuando la prioridad es igual significa que se encontro con el ( por lo que solo lo tiene que eliminar
+            ultimoOperador = operadores.pop();
+        }
     }
 }
