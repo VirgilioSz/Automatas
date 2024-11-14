@@ -25,16 +25,14 @@ public class vci {
         tablaTokens();
         empezar();
         crearVCI();
+        //guardar todo el vci en la variable printVCI para luego mostrarla en consola con solo los lexemas
         for (int index = 0; index < vci.size(); index++) {
             printVCI += vci.get(index).getLexema() + ", ";
         }
         System.out.println(printVCI);
-        for (Operadores operador : operadores) {
-            System.out.println(operador); // O imprime los campos específicos, por ejemplo: operador.getToken()
-        }
-
     }
 
+    //metodo para generar tabla de tokens
     public static void tablaTokens() {
         try (BufferedReader br = new BufferedReader(
                 new FileReader(
@@ -61,6 +59,7 @@ public class vci {
         }
     }
 
+    //metodo para moverte hasta el primer begin del programa
     public static void empezar() {
         while (tokens.get(index).getToken() != -2) {
             index++;
@@ -68,11 +67,13 @@ public class vci {
         index++;
     }
 
+    //metodo principal para generar el VCI
     public static void crearVCI() {
         int token = 0;
         for (; index < tokens.size(); index++) {
             token = tokens.get(index).getToken();
 
+            //el switch redirige a los metodos dependiendo el caso que se encuentre en base al token actual
             switch (token) {
                 case -4, -5:
                     writeRead();
@@ -88,6 +89,7 @@ public class vci {
         }
     }
 
+    //metodo auxiliar de crearVCI para los casos donde haya un write o un read
     public static void writeRead() {
         int token = 0;
         Token tokenAux = null;
@@ -116,6 +118,7 @@ public class vci {
 
     }
 
+    //metodo auxiliar de crearVCI para los casos donde haya una expresion matematica
     public static void identificadoresConstantes() {
         int token = 0;
         while (tokens.get(index).getToken() != -75) {
@@ -138,6 +141,7 @@ public class vci {
         }
     }
 
+    //metodo auxiliar para asignar a los operadores su prioridad y mandarlos a la pila
     public static void operador() {
         int token = 0;
         token = tokens.get(index).getToken();
@@ -180,6 +184,7 @@ public class vci {
         }
     }
 
+    //metodo auxiliar de operador para agregar y sacar los operadores de la pila
     public static void pilaOperador(int prioridadActual) {
         Token tokenNuevo;
         int prioridad = 0;
@@ -192,6 +197,7 @@ public class vci {
         operadores.push(new Operadores(tokenNuevo, prioridad));
     }
 
+    //metodo alternativo de pilaOperador para los casos donde haya ( )
     public static void pilaOperador(int prioridadActual, int token) {
         Token tokenNuevo;
         int prioridad = 0;
