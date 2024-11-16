@@ -1,1 +1,1 @@
-grados_fahrenheit?,-55,1,0
+num_primo?,-55,1,0

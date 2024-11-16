@@ -15,8 +15,9 @@ import javax.swing.JOptionPane;
 public class vci {
     static public List<Token> tokens = new ArrayList<>();
     static public int index = 0;
+    static public int indexVCI = 0;
     static public List<Token> vci = new ArrayList<>();
-    static public Stack<String> estatutos = new Stack<>();
+    static public Stack<Token> estatutos = new Stack<>();
     static public Stack<Integer> direccion = new Stack<>();
     static public Stack<Operadores> operadores = new Stack<>();
 
@@ -25,14 +26,15 @@ public class vci {
         tablaTokens();
         empezar();
         crearVCI();
-        //guardar todo el vci en la variable printVCI para luego mostrarla en consola con solo los lexemas
+        // guardar todo el vci en la variable printVCI para luego mostrarla en consola
+        // con solo los lexemas
         for (int index = 0; index < vci.size(); index++) {
             printVCI += vci.get(index).getLexema() + ", ";
         }
         System.out.println(printVCI);
     }
 
-    //metodo para generar tabla de tokens
+    // metodo para generar tabla de tokens
     public static void tablaTokens() {
         try (BufferedReader br = new BufferedReader(
                 new FileReader(
@@ -59,7 +61,7 @@ public class vci {
         }
     }
 
-    //metodo para moverte hasta el primer begin del programa
+    // metodo para moverte hasta el primer begin del programa
     public static void empezar() {
         while (tokens.get(index).getToken() != -2) {
             index++;
@@ -67,20 +69,25 @@ public class vci {
         index++;
     }
 
-    //metodo principal para generar el VCI
+    // metodo principal para generar el VCI
     public static void crearVCI() {
         int token = 0;
         for (; index < tokens.size(); index++) {
             token = tokens.get(index).getToken();
 
-            //el switch redirige a los metodos dependiendo el caso que se encuentre en base al token actual
+            // el switch redirige a los metodos dependiendo el caso que se encuentre en base
+            // al token actual
             switch (token) {
                 case -4, -5:
                     writeRead();
                     break;
 
-                case -51, -52, -53, -54, -55, -61, -62, -63, -64, -65:
+                case -51, -52, -53, -54, -55, -61, -62, -63, -64, -65, -73, -74:
                     identificadoresConstantes();
+                    break;
+
+                case -6, -7, -16, -2, -3:
+                    condicionIfElse();
                     break;
 
                 default:
@@ -89,7 +96,7 @@ public class vci {
         }
     }
 
-    //metodo auxiliar de crearVCI para los casos donde haya un write o un read
+    // metodo auxiliar de crearVCI para los casos donde haya un write o un read
     public static void writeRead() {
         int token = 0;
         Token tokenAux = null;
@@ -118,18 +125,73 @@ public class vci {
 
     }
 
-    //metodo auxiliar de crearVCI para los casos donde haya una expresion matematica
+    public static void condicionIfElse() {
+        Token marcador = null;
+        switch (tokens.get(index).getToken()) {
+
+            case -6:
+                estatutos.push(tokens.get(index));
+                break;
+
+            case -16:
+                marcador = new Token("0", 0, 0, 0);
+                vci.add(marcador);
+                indexVCI = vci.size() - 1;
+                direccion.push(indexVCI);
+                break;
+
+            case -2:
+                if (!estatutos.isEmpty()) { // Verificar si estatutos no está vacío
+                    vci.add(estatutos.peek());
+                }
+                break;
+
+            case -3:
+                String posicionVCI = "";
+                if (!direccion.isEmpty()) { // Verificar si direccion no está vacío
+                    if (index + 1 < tokens.size() && tokens.get(index + 1).getToken() == -7) {
+                        marcador = new Token("0", 0, 0, 0);
+                        vci.add(marcador);
+                        posicionVCI = String.valueOf(vci.size() + 1);
+                        vci.set(direccion.pop(), new Token(posicionVCI, vci.size() + 1, 0, 0));
+                        estatutos.pop();
+
+                        estatutos.push(tokens.get(index + 1));
+                        indexVCI = vci.size() - 1;
+                        direccion.push(indexVCI);
+                    } else {
+                        posicionVCI = String.valueOf(vci.size());
+                        vci.set(direccion.pop(), new Token(posicionVCI, vci.size(), 0, 0));
+                        estatutos.pop();
+                    }
+                } else if (index + 1 == tokens.size()) { //si se llego al final del programa se sale del metodo
+                    return;
+                } else {
+                    System.out.println("Error: La pila 'direccion' está vacía al intentar hacer 'peek'. "
+                            + tokens.get(index).getLexema());
+                }
+                break;
+        }
+    }
+
+    // metodo auxiliar de crearVCI para los casos donde haya una expresion
+    // matematica
     public static void identificadoresConstantes() {
         int token = 0;
         while (tokens.get(index).getToken() != -75) {
             token = tokens.get(index).getToken();
+
+            if (token == -16) {
+                condicionIfElse();
+                return;
+            }
 
             switch (token) {
                 case -21, -22, -24, -25, -26, -31, -32, -33, -34, -35, -36, -41, -42, -43, -73, -74:
                     operador();
                     break;
 
-                default:
+                case -51, -52, -53, -54, -55, -61, -62, -63, -64, -65:
                     vci.add(tokens.get(index));
                     break;
             }
@@ -141,7 +203,8 @@ public class vci {
         }
     }
 
-    //metodo auxiliar para asignar a los operadores su prioridad y mandarlos a la pila
+    // metodo auxiliar para asignar a los operadores su prioridad y mandarlos a la
+    // pila
     public static void operador() {
         int token = 0;
         token = tokens.get(index).getToken();
@@ -184,7 +247,7 @@ public class vci {
         }
     }
 
-    //metodo auxiliar de operador para agregar y sacar los operadores de la pila
+    // metodo auxiliar de operador para agregar y sacar los operadores de la pila
     public static void pilaOperador(int prioridadActual) {
         Token tokenNuevo;
         int prioridad = 0;
@@ -197,7 +260,7 @@ public class vci {
         operadores.push(new Operadores(tokenNuevo, prioridad));
     }
 
-    //metodo alternativo de pilaOperador para los casos donde haya ( )
+    // metodo alternativo de pilaOperador para los casos donde haya ( )
     public static void pilaOperador(int prioridadActual, int token) {
         Token tokenNuevo;
         int prioridad = 0;
@@ -213,7 +276,8 @@ public class vci {
                 ultimoOperador = operadores.pop();
                 vci.add(ultimoOperador.getToken());
             }
-            //cuando la prioridad es igual significa que se encontro con el ( por lo que solo lo tiene que eliminar
+            // cuando la prioridad es igual significa que se encontro con el ( por lo que
+            // solo lo tiene que eliminar
             ultimoOperador = operadores.pop();
         }
     }

@@ -1,4 +1,4 @@
-x%,-52,0.0,0,0,null,grados_fahrenheit?
-cent%,-52,0.0,0,0,null,grados_fahrenheit?
-farh%,-52,0.0,0,0,null,grados_fahrenheit?
-x&,-51,0,0,0,null,grados_fahrenheit?
+x&,-51,0,0,0,null,num_primo?
+i&,-51,0,0,0,null,num_primo?
+res#,-53,null,0,0,null,num_primo?
+esPrimo$,-54,false,0,0,null,num_primo?

@@ -1,11 +1,27 @@
-program grados_fahrenheit?;
+program num_primo?;
 var
-	real: x%, cent%, farh%;
-	int: x&;
+  int: x&, i&;
+  string: res#;
+  bool: esPrimo$;
+
 begin
-        write("Ingrese °C");
-	read(cent%);
-	farh%:= (cent% * 9.0/5)+32+"Hola";
-        write("En Farenheit es igual a ");
-	write(farh%);
+    read(x&);
+    if (x& <= 1) then
+       begin
+            res# := "No es un numero primo";
+       end
+    else
+       begin
+            esPrimo$ := true;
+            if (esPrimo$) then
+              begin
+                 res# := "Es un numero primo";
+              end
+            else
+              begin
+                 res# := "No es un numero primo";
+              end
+       end
+    write(x&);
+    write(res#);
 end
