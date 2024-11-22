@@ -86,12 +86,16 @@ public class vci {
                     identificadoresConstantes();
                     break;
 
-                // case -6, -7, -16, -2, -3:
-                //     condicionIfElse();
-                //     break;
+                case -6:
+                    condicionIfElse();
+                    break;
 
-                case -8, -17, -2, -3:
+                case -8:
                     condicionWhile();
+                    break;
+
+                case -2, -3:
+                    beginEnd();
                     break;
 
                 default:
@@ -149,39 +153,10 @@ public class vci {
                     vci.add(estatutos.peek());
                 }
                 break;
-
-            case -3:
-                String posicionVCI = "";
-                if (!direccion.isEmpty()) { // Verificar si direccion no está vacío
-                    if (index + 1 < tokens.size() && tokens.get(index + 1).getToken() == -7) {
-                        marcador = new Token("0", 0, 0, 0);
-                        vci.add(marcador);
-                        posicionVCI = String.valueOf(vci.size() + 1);
-                        vci.set(direccion.pop(), new Token(posicionVCI, vci.size() + 1, 0, 0));
-                        estatutos.pop();
-
-                        estatutos.push(tokens.get(index + 1));
-                        indexVCI = vci.size() - 1;
-                        direccion.push(indexVCI);
-                    } else {
-                        posicionVCI = String.valueOf(vci.size());
-                        vci.set(direccion.pop(), new Token(posicionVCI, vci.size(), 0, 0));
-                        estatutos.pop();
-                    }
-                } else if (index + 1 == tokens.size()) { // si se llego al final del programa se sale del metodo
-                    return;
-                } else {
-                    System.out.println("Error: La pila 'direccion' está vacía al intentar hacer 'peek'. "
-                            + tokens.get(index).getLexema());
-                }
-                break;
         }
     }
 
     public static void condicionWhile() {
-        // Es lo mismo que condicionIfElse solo se quita si hay un else, es como el if
-        // simple, y agregar la condicion en identificadoresConstantes
-        // que si el token es do mandar llamar este metodo -8, -17, -2, -3
         Token marcador = null;
         switch (tokens.get(index).getToken()) {
 
@@ -197,28 +172,57 @@ public class vci {
                 indexVCI = vci.size() - 1;
                 direccion.push(indexVCI);
                 break;
+        }
+    }
 
-            case -2:
-                if (!estatutos.isEmpty()) { // Verificar si estatutos no está vacío
+    public static void beginEnd() {
+        Token marcador;
+        String posicionVCI;
+
+        switch (tokens.get(index).getToken()) {
+            case -2: // Begin
+                if (!estatutos.isEmpty()) { // Verificar que la pila no esté vacía
                     vci.add(estatutos.peek());
+                } else {
+                    System.out.println("Advertencia: 'estatutos' está vacío al procesar 'begin'.");
                 }
                 break;
 
-            case -3:
-                String posicionVCI = "";
-                if (!direccion.isEmpty()) { // Verificar si direccion no está vacío
+            case -3: // End
+                if (!direccion.isEmpty() && !estatutos.isEmpty()) { // Verificar que ambas pilas no estén vacías
+                    Token estatutoActual = estatutos.peek(); // Estatuto actual en la cima
+
+                    if (estatutoActual.getToken() == -6) { // Es un "if"
+                        if (index + 1 < tokens.size() && tokens.get(index + 1).getToken() == -7) { // Verificar "else"
+                            marcador = new Token("0", 0, 0, 0);
+                            vci.add(marcador); // Añadir marcador para el else
+                            posicionVCI = String.valueOf(vci.size() + 1); // Dirección del siguiente bloque
+                            vci.set(direccion.pop(), new Token(posicionVCI, 0, 0, 0));
+                            estatutos.pop(); // Remover el "if"
+
+                            estatutos.push(tokens.get(index + 1)); // Guardar el "else"
+                            direccion.push(vci.size() - 1); // Guardar dirección para el "else"
+                        } else {
+                            // Fin del bloque "if"
+                            posicionVCI = String.valueOf(vci.size());
+                            vci.set(direccion.pop(), new Token(posicionVCI, 0, 0, 0));
+                            estatutos.pop();
+                        }
+                    } else if (estatutoActual.getToken() == -8) { // Es un "while"
+                        // Pone la direccion a la cual ir si el while no se cumple
                         posicionVCI = String.valueOf(vci.size() + 1);
                         vci.set(direccion.pop(), new Token(posicionVCI, vci.size() + 1, 0, 0));
-                        
+
+                        // Pone la direccion a la cual ir para validar otra vez el while
                         posicionVCI = String.valueOf(direccion.peek());
                         vci.add(new Token(posicionVCI, direccion.pop(), 0, 0));
                         estatutos.pop();
-                } else if (index + 1 == tokens.size()) { // si se llego al final del programa se sale del metodo
-                    return;
-                } else {
-                    System.out.println("Error: La pila 'direccion' está vacía al intentar hacer 'peek'. "
-                            + tokens.get(index).getLexema());
+                    }
                 }
+                break;
+
+            default:
+                System.out.println("Error: Token no manejado en beginEnd.");
                 break;
         }
     }
