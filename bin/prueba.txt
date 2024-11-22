@@ -5,23 +5,11 @@ var
   bool: esPrimo$;
 
 begin
-    read(x&);
-    if (x& <= 1) then
-       begin
+   read(x&);
+      while (x& <= 1) do
+         begin
             res# := "No es un numero primo";
-       end
-    else
-       begin
-            esPrimo$ := true;
-            if (esPrimo$) then
-              begin
-                 res# := "Es un numero primo";
-              end
-            else
-              begin
-                 res# := "No es un numero primo";
-              end
-       end
+         end
     write(x&);
     write(res#);
 end
