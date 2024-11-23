@@ -2,15 +2,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.swing.JOptionPane;
 
 public class vci {
     static public List<Token> tokens = new ArrayList<>();
@@ -29,7 +24,7 @@ public class vci {
         // guardar todo el vci en la variable printVCI para luego mostrarla en consola
         // con solo los lexemas
         for (int index = 0; index < vci.size(); index++) {
-            printVCI += vci.get(index).getLexema() + ", ";
+            printVCI += index + ") " +vci.get(index).getLexema() + "\n ";
         }
         System.out.println(printVCI);
     }
@@ -147,12 +142,6 @@ public class vci {
                 indexVCI = vci.size() - 1;
                 direccion.push(indexVCI);
                 break;
-
-            case -2:
-                if (!estatutos.isEmpty()) { // Verificar si estatutos no está vacío
-                    vci.add(estatutos.peek());
-                }
-                break;
         }
     }
 
@@ -197,7 +186,7 @@ public class vci {
                             marcador = new Token("0", 0, 0, 0);
                             vci.add(marcador); // Añadir marcador para el else
                             posicionVCI = String.valueOf(vci.size() + 1); // Dirección del siguiente bloque
-                            vci.set(direccion.pop(), new Token(posicionVCI, 0, 0, 0));
+                            vci.set(direccion.pop(), new Token(posicionVCI, vci.size() + 1, 0, 0));
                             estatutos.pop(); // Remover el "if"
 
                             estatutos.push(tokens.get(index + 1)); // Guardar el "else"
@@ -205,9 +194,14 @@ public class vci {
                         } else {
                             // Fin del bloque "if"
                             posicionVCI = String.valueOf(vci.size());
-                            vci.set(direccion.pop(), new Token(posicionVCI, 0, 0, 0));
+                            vci.set(direccion.pop(), new Token(posicionVCI, vci.size(), 0, 0));
                             estatutos.pop();
                         }
+                    } else if (estatutoActual.getToken() == -7) {
+                        // Fin del bloque "else"
+                        posicionVCI = String.valueOf(vci.size());
+                        vci.set(direccion.pop(), new Token(posicionVCI, vci.size(), 0, 0));
+                        estatutos.pop();
                     } else if (estatutoActual.getToken() == -8) { // Es un "while"
                         // Pone la direccion a la cual ir si el while no se cumple
                         posicionVCI = String.valueOf(vci.size() + 1);
