@@ -204,13 +204,15 @@ public class vci {
                         estatutos.pop();
                     } else if (estatutoActual.getToken() == -8) { // Es un "while"
                         // Pone la direccion a la cual ir si el while no se cumple
-                        posicionVCI = String.valueOf(vci.size() + 1);
-                        vci.set(direccion.pop(), new Token(posicionVCI, vci.size() + 1, 0, 0));
+                        posicionVCI = String.valueOf(vci.size() + 2);
+                        vci.set(direccion.pop(), new Token(posicionVCI, vci.size() + 2, 0, 0));
 
                         // Pone la direccion a la cual ir para validar otra vez el while
                         posicionVCI = String.valueOf(direccion.peek());
                         vci.add(new Token(posicionVCI, direccion.pop(), 0, 0));
                         estatutos.pop();
+
+                        vci.add(new Token("endWhile", 1, 0, 0));
                     }
                 }
                 break;
