@@ -24,7 +24,7 @@ public class vci {
         // guardar todo el vci en la variable printVCI para luego mostrarla en consola
         // con solo los lexemas
         for (int index = 0; index < vci.size(); index++) {
-            printVCI += index + ") " +vci.get(index).getLexema() + "\n ";
+            printVCI += index + ") " + vci.get(index).getLexema() + "\n ";
         }
         System.out.println(printVCI);
     }
@@ -87,6 +87,10 @@ public class vci {
 
                 case -8:
                     condicionWhile();
+                    break;
+
+                case -9, -10:
+                    condicionRepeatUntil();
                     break;
 
                 case -2, -3:
@@ -164,16 +168,34 @@ public class vci {
         }
     }
 
+    public static void condicionRepeatUntil() {
+        String posicionVCI;
+        switch (tokens.get(index).getToken()) {
+
+            case -9:
+                estatutos.push(tokens.get(index));
+                indexVCI = vci.size();
+                direccion.push(indexVCI);
+                break;
+
+            case -10:
+                identificadoresConstantes();
+                posicionVCI = String.valueOf(direccion.peek());
+                vci.add(new Token(posicionVCI, direccion.pop(), 0, 0));
+                vci.add(new Token("endDo", 2, 0, 0));
+                estatutos.pop();
+                break;
+        }
+    }
+
     public static void beginEnd() {
         Token marcador;
         String posicionVCI;
 
         switch (tokens.get(index).getToken()) {
             case -2: // Begin
-                if (!estatutos.isEmpty()) { // Verificar que la pila no esté vacía
+                if (!estatutos.isEmpty() && estatutos.peek().getToken() != -9) { // Verificar que la pila no esté vacía
                     vci.add(estatutos.peek());
-                } else {
-                    System.out.println("Advertencia: 'estatutos' está vacío al procesar 'begin'.");
                 }
                 break;
 
