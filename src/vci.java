@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class vci {
             printVCI += index + ") " + vci.get(index).getLexema() + "\n ";
         }
         System.out.println(printVCI);
+        escribirVci();
     }
 
     // metodo para generar tabla de tokens
@@ -355,6 +357,19 @@ public class vci {
             // cuando la prioridad es igual significa que se encontro con el ( por lo que
             // solo lo tiene que eliminar
             ultimoOperador = operadores.pop();
+        }
+    }
+
+    private static void escribirVci() {
+        try (FileWriter fw = new FileWriter("C:\\Users\\virgi\\Documents\\ITS\\Semestre 7\\Lenguajes y automatas ii\\Proyecto1\\src\\vci.txt", false)) {
+            for (int i = 0; i < vci.size(); i++) {
+                Token token = vci.get(i);
+                String linea = token.getLexema() + "," + token.getToken() + "," + token.getPos_Tabla() + ","
+                        + token.no_linea + "\n";
+                fw.write(linea);
+            }
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el archivo: " + e.getMessage());
         }
     }
 }
